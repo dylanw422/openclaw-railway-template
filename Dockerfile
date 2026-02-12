@@ -11,7 +11,19 @@ RUN apt-get update \
     build-essential \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g github:openclaw/openclaw#main
+# 1. Enable pnpm (OpenClaw uses this instead of npm)
+RUN corepack enable
+
+# 2. Clone the latest code from GitHub into a temporary folder
+RUN git clone https://github.com/openclaw/openclaw.git /opt/openclaw
+
+# 3. Build OpenClaw from source
+WORKDIR /opt/openclaw
+RUN pnpm install
+RUN pnpm build
+
+# 4. Make the 'openclaw' command available globally
+RUN npm link
 
 WORKDIR /app
 
