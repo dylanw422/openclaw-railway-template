@@ -20,6 +20,7 @@ RUN git clone https://github.com/openclaw/openclaw.git /opt/openclaw
 # 3. Build OpenClaw from source
 WORKDIR /opt/openclaw
 RUN pnpm install
+RUN pnpm ui:build
 RUN pnpm build
 
 # 4. Make the 'openclaw' command available globally
